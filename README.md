@@ -10,7 +10,7 @@ check out 00-gasmeter.yaml
 
 # Install
 - create a new board / instance in ESPhome in your Homeassistant
-- add the code from 
+- add the code from 00-gasmeter.yaml
 - change the api and secret keys of the yaml file 
 - check the analog input voltages and adjust them in the yaml file
 - it can take quite some testing until you figured out the right values for the upper and lower limit
