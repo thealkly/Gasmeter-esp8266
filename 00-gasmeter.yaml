@@ -1,0 +1,75 @@
+esphome:
+  name: 00-gasmeter
+
+esp8266:
+  board: esp01_1m
+
+# Enable logging
+logger:
+
+# Enable Home Assistant API
+api:
+  encryption:
+    key: USEYOURWONKEY
+
+ota:
+  password: USEYOURWONKEY
+
+wifi:
+  ssid: !secret wifi_ssid
+  password: !secret wifi_password
+
+globals:
+# this will count the pules, calculated by "analog threshold"sensor
+  - id: total_pulses
+    type: int
+    restore_value: false
+    initial_value: '0'
+  
+binary_sensor:
+
+
+  - platform: analog_threshold
+    name: "GasMeterAnalogTreshhold"
+    sensor_id: gasmeteranaloginput
+    threshold: 
+# these values need to be adjusted based on your setup, this is the voltace the analog input is measuring
+      upper: 0.531
+      lower: 0.53
+    on_press:
+      then:
+        - lambda: id(total_pulses) += 1;
+
+sensor:
+ # this sensor is counting the pulses, if your gas meter says 1 imp = 0,01m3 then the 0.001 below is right
+ #you need to change it if the pulse to m3 ratio is different on your gas meter
+  - platform: template
+    name: "GasverbrauchAd"
+    device_class: gas
+    unit_of_measurement: "m³"
+    state_class: "total_increasing"
+    icon: "mdi:fire"
+    accuracy_decimals: 2
+    lambda: |-
+      return id(total_pulses) * 0.01;
+      ESP_LOGD("Gaszähler analog TAG", "Pulse bisher: %d", id(total_pulses));
+  
+  # this sensor is using the same logic, just calculating in kWh
+  - platform: template
+    name: "Gasverbrauch-kWh"
+    device_class: gas
+    unit_of_measurement: "kWh"
+    state_class: "total_increasing"
+    icon: "mdi:fire"
+    accuracy_decimals: 2
+    lambda: |-
+      return id(total_pulses) * 0.1;
+      ESP_LOGD("Gaszähler kWh TAG", "Pulse bisher: %d", id(total_pulses));
+  
+  #analog input connected to the analog sensor output from the hall sensor board
+  - platform: adc
+    internal: TRUE
+    pin: A0
+    id: gasmeteranaloginput
+    name: "GasMeterAnalogInput"
+    update_interval: 2s
