@@ -1,0 +1,51 @@
+Excerpt from the configuration yaml from Home Assistant 2023.1.2
+
+
+
+template:
+  - sensor:
+    - name: "gaskosten_euro"
+      unit_of_measurement: "€"
+      state: "{{ states('sensor.gasverbrauch_kwh') | float * 0.12  | round(2) }}"
+# wert nach "float *" ist der Gaspreis in Euro pro kwh    
+
+utility_meter:
+
+  gasverbrauch_daily:
+    source: sensor.gasverbrauchad
+    cycle: daily
+  gasverbrauch_daily_6am:
+    source: sensor.gasverbrauchad
+    cycle: daily
+    offset: "06:00"
+  gasverbrauch_weekly:  
+    source: sensor.gasverbrauchad
+    cycle: weekly
+  gasverbrauch_monthly:
+    source: sensor.gasverbrauchad
+    cycle: monthly
+  gasverbrauch_yearly:
+    source: sensor.gasverbrauchad
+    cycle: yearly 
+
+  gasverbrauch_euro_daily:
+    source: sensor.gaskosten_euro
+    cycle: daily
+  gasverbrauch_euro_daily_6am:
+    source: sensor.gaskosten_euro
+    cycle: daily
+    offset: "06:00"
+  gasverbrauch_euro_weekly:  
+    source: sensor.gaskosten_euro
+    cycle: weekly
+  gasverbrauch_euro_monthly:
+    source: sensor.gaskosten_euro
+    cycle: monthly
+
+  gastherme_brennerstart_daily:
+    source: sensor.gastherme_brennerstart_counter
+    cycle: daily 
+  gastherme_brennerstart_daily6am:
+    source: sensor.gastherme_brennerstart_counter
+    cycle: daily
+    offset: "06:00"
