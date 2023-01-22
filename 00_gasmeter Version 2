@@ -124,7 +124,8 @@ sensor:
 
   - platform: adc
     #interner Wert, der die Spannung des Reed Sensors misst. 
-    internal: TRUE
+    internal: FALSE
+    #dieser Wert kann nach der Einrichtung auf True gesetzt werden. 
     pin: A0
     id: gasmeteranaloginput
     name: "GasMeterAnalogInput"
