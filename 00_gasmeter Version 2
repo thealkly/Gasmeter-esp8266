@@ -110,7 +110,7 @@ sensor:
     icon: "mdi:fire"
     accuracy_decimals: 2
     lambda: |-
-      return id(total_pulses2) * id(imp_ratio) * 0.1;
+      return id(total_pulses2) * id(imp_ratio) * 10;
       ESP_LOGD("Gaszähler kWh TAG", "Pulse bisher: %d", id(total_pulses2));
 
 
