@@ -113,11 +113,11 @@ sensor:
       return id(total_pulses2) * id(imp_ratio) * 10;
       ESP_LOGD("Gaszähler kWh TAG", "Pulse bisher: %d", id(total_pulses2));
 
-
-  - platform: pulse_counter
-    pin: D1
-    name: "Pulse Counter"
-    icon: "mdi:pulse"
+ # 28.12.2023 due to new ESPhome 2023.12 Release Pins can only be used once. Quick Fix, Pulse Counter is not mandatory so it is excluded. After some Research 
+ # - platform: pulse_counter
+ #   pin: D1
+ #   name: "Pulse Counter"
+ #   icon: "mdi:pulse"
 
 
 
