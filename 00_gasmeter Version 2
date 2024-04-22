@@ -55,11 +55,13 @@ binary_sensor:
 
 
 # Sensor zählt, ob ein "klick" beim Gaszähler erfolgt ist. Auf Basis eines Eingang Impulses
+#changed to allow other uses for new esphome release.
   - platform: gpio
     id: internal_pulse_counter
     pin:
       number: D1
       mode: INPUT_PULLUP
+      allow_other_uses: true
     name: "Live-Impuls"
     filters:
      - delayed_on: 50ms
@@ -113,11 +115,13 @@ sensor:
       return id(total_pulses2) * id(imp_ratio) * 10;
       ESP_LOGD("Gaszähler kWh TAG", "Pulse bisher: %d", id(total_pulses2));
 
- # 28.12.2023 due to new ESPhome 2023.12 Release Pins can only be used once. Quick Fix, Pulse Counter is not mandatory so it is excluded. After some Research 
- # - platform: pulse_counter
- #   pin: D1
- #   name: "Pulse Counter"
- #   icon: "mdi:pulse"
+ 
+  - platform: pulse_counter
+    pin: 
+      number: D1
+      allow_other_uses: true
+    name: "Pulse Counter"
+    icon: "mdi:pulse"
 
 
 
